@@ -10,7 +10,10 @@ thickness_value = st.sidebar.number_input("Thickness (mm)", value=200, step=50)
 length_value = st.sidebar.number_input("Length (mm)", value=2000, step=50)
 height_value = st.sidebar.number_input("Unsupported height (mm)", value=3000, step=50)
 k = st.sidebar.number_input("k", value=1.0, step=0.1)
-fc_value = st.sidebar.number_input("f'c (MPa)", value=40, step=5)
+# fc_value = st.sidebar.number_input("f'c (MPa)", value=40, step=5)
+# fc_list = list(range(25,105,5))
+# st.sidebar.write(fc_list)
+fc_value = st.sidebar.selectbox("f'c (MPa)", list(range(25,105,5)), index= 1)
 
 t=0
 phi_c = 0.65
@@ -25,7 +28,7 @@ Pr_latex, Pr_value = calc_Pr(t, length, hu, k, phi_c, fc)
 st.markdown("# Axial capacity of a concrete bearing wall")
 st.latex(Pr_latex)
 
-st.markdown("# Investigation")
+# st.markdown("# Investigation")
 
 st.sidebar.header("Investigation:")
 
@@ -42,18 +45,23 @@ Pr_list = calc_Pr_list(thick_list, length_value, height_value, k, phi_c, fc_valu
 fig = go.Figure()
 
 # Plot lines
-# for value in t_values:
 fig.add_trace(
     go.Scatter(
-    x=t_values, 
+    x=thick_list, 
     y=Pr_list,
-    # line={"color": 1},
-    name="Column A"
+    mode='markers',
+    marker = dict(color=10)
     )
 )
 
-# fig.layout.title.text = "Bearing wall"
+fig.layout.title.text = "Investigation: Pr of concrete bearing wall"
 fig.layout.xaxis.title = "Thickness of wall, mm"
-fig.layout.yaxis.title = "Pr, MN"
+fig.layout.yaxis.title = "Pr, kN"
+fig.update_xaxes(ticks="outside", tickwidth=1, tickcolor='black', ticklen=5)
+fig.update_yaxes(ticks="outside", tickwidth=1, tickcolor='black', ticklen=5)
+# fig.update_xaxes(nticks=len(thick_list))
+# fig.update_xaxes(ticks="inside")
+# fig.update_yaxes(ticks="inside")
+# fig.layout.print_grid = True 
 
 st.plotly_chart(fig)

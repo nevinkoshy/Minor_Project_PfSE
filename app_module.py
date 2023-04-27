@@ -7,7 +7,7 @@ def calc_Pr_list(t_list: list, l: int, h_u: float, k: float, phi_c: float, f_c: 
     P_r_list = []
     for t_value in t_list:        
         A_g = t_value * l
-        P_r_value = (2/3) * alpha_1 * phi_c * f_c * A_g * (1 - (k * h_u/(32*t_value))**2)
+        P_r_value = round(0.001*(2/3) * alpha_1 * phi_c * f_c * A_g * (1 - (k * h_u/(32*t_value))**2),0)  #in kilonewtons
         P_r_list.append(P_r_value)
     return P_r_list
 
